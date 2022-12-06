@@ -28,6 +28,6 @@ public class EmployeeController {
     }
     @GetMapping(params = {""})
     public List<Employee> getByGender(@RequestParam String gender){
-        return null;
+        return employeeRepository.findByGender(gender);
     }
 }
