@@ -28,4 +28,17 @@ public class EmployeeRepository {
     public List<Employee> findByGender(String gender) {
         return employees.stream().filter(employee -> employee.getGender().equals(gender)).collect(Collectors.toList());
     }
+
+    public Employee create(Employee employee) {
+        int id = generateNextId();
+        employee.setId(id);
+        return employee;
+    }
+
+    private int generateNextId() {
+        return employees.stream()
+                .mapToInt(Employee::getId)
+                .max()
+                .orElse(1);
+    }
 }
