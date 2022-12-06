@@ -16,4 +16,8 @@ public class EmployeeRepository {
     public List<Employee> findAll() {
         return this.employees;
     }
+
+    public Employee findById(int id) {
+        return employees.stream().filter(employee -> employee.getId() == id).findFirst().get();
+    }
 }
