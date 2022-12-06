@@ -21,7 +21,7 @@ public class EmployeeRepository {
         return this.employees;
     }
 
-    public Employee findById(int id) {
+    public Employee findById(Integer id) {
         return employees.stream().filter(employee -> employee.getId() == id).findFirst().get();
     }
 
@@ -30,15 +30,33 @@ public class EmployeeRepository {
     }
 
     public Employee create(Employee employee) {
-        int id = generateNextId();
+        Integer id = generateNextId();
         employee.setId(id);
+        employees.add(employee);
         return employee;
     }
 
-    private int generateNextId() {
-        return employees.stream()
+    private Integer generateNextId() {
+        int lastId =  employees.stream()
                 .mapToInt(Employee::getId)
                 .max()
                 .orElse(1);
+        return lastId + 1;
+    }
+
+    public Employee update(Integer id, Employee employee) {
+        Employee existingEmployee = findById(id);
+        if(employee.getAge() != null){
+            existingEmployee.setAge(employee.getAge());
+        }
+        if(employee.getSalary() != null){
+            existingEmployee.setSalary(employee.getSalary());
+        }
+        return existingEmployee;
+    }
+
+    public void delete(Integer id) {
+        Employee existingEmployee = findById(id);
+        employees.remove(existingEmployee);
     }
 }
